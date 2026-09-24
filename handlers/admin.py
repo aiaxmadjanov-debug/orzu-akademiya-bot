@@ -12,7 +12,7 @@ from aiogram.types import (
 )
 from aiogram.fsm.context import FSMContext
 
-from config import ADMIN_ID
+from config import ADMIN_ID, ADMIN_IDS
 from database.db import (
     async_session,
     Order,
@@ -39,7 +39,7 @@ router = Router()
 
 @router.message(Command("admin"))
 async def admin_panel(message: Message):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         await message.answer(
             "⛔️ Сизда админ панелга кириш ҳуқуқи йўқ."
         )
@@ -102,7 +102,7 @@ def orders_status_menu():
 
 @router.message(lambda message: message.text == "📝 Буюртмалар")
 async def admin_orders_menu(message: Message):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     await message.answer(
@@ -121,7 +121,7 @@ async def admin_orders_menu(message: Message):
     lambda callback: callback.data == "admin_orders_new"
 )
 async def show_new_orders(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -193,7 +193,7 @@ async def show_new_orders(callback: CallbackQuery):
     lambda callback: callback.data.startswith("admin_order_")
 )
 async def show_order_details(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -323,7 +323,7 @@ async def show_order_details(callback: CallbackQuery):
     lambda callback: callback.data == "admin_orders_back"
 )
 async def admin_orders_back(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         return
 
     await callback.message.edit_text(
@@ -387,7 +387,7 @@ def order_status_menu(order_id: int):
     lambda callback: callback.data.startswith("admin_status_")
 )
 async def change_order_status_menu(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -445,7 +445,7 @@ async def change_order_status_menu(callback: CallbackQuery):
 )
 async def set_order_status(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -579,7 +579,7 @@ async def show_orders_by_status(
     status: str,
     title: str
 ):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -712,7 +712,7 @@ async def show_cancelled_orders(callback: CallbackQuery):
     lambda callback: callback.data == "admin_orders_all"
 )
 async def show_all_orders(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -834,7 +834,7 @@ def statistics_menu():
 
 @router.message(lambda message: message.text == "📊 Статистика")
 async def admin_statistics(message: Message):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     await message.answer(
@@ -928,7 +928,7 @@ async def show_statistics(
     period_name: str,
     start_date: datetime
 ):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -1046,7 +1046,7 @@ async def statistics_month(callback: CallbackQuery):
     lambda callback: callback.data == "admin_stats_back"
 )
 async def statistics_back(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         return
 
     await callback.message.delete()
@@ -1065,7 +1065,7 @@ async def statistics_back(callback: CallbackQuery):
 
 @router.message(lambda message: message.text == "👥 Фойдаланувчилар")
 async def admin_users(message: Message):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     now = datetime.now()
@@ -1155,7 +1155,7 @@ async def admin_users(message: Message):
     lambda callback: callback.data == "admin_users_list"
 )
 async def admin_users_list(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -1222,7 +1222,7 @@ async def admin_users_list(callback: CallbackQuery):
 )
 async def admin_user_detail(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -1314,7 +1314,7 @@ async def admin_user_detail(callback: CallbackQuery):
 )
 async def admin_users_back(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -1337,7 +1337,7 @@ async def admin_users_back(callback: CallbackQuery):
 )
 async def admin_order_detail(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -1430,7 +1430,7 @@ InlineKeyboardButton(
 )
 async def admin_order_status_menu(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -1492,7 +1492,7 @@ async def admin_order_status_menu(callback: CallbackQuery):
     await callback.answer()
 @router.message(F.text == "💰 Нархларни бошқариш")
 async def manage_prices(message: Message):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     keyboard = ReplyKeyboardMarkup(
@@ -1523,7 +1523,7 @@ async def manage_prices(message: Message):
     )
 @router.message(F.text == "➕ Нарх қўшиш")
 async def add_price_start(message: Message, state: FSMContext):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     await state.set_state(PriceStates.waiting_service_name)
@@ -1539,7 +1539,7 @@ async def add_price_start(message: Message, state: FSMContext):
 
 @router.message(PriceStates.waiting_service_name)
 async def add_price_service_name(message: Message, state: FSMContext):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     service_name = message.text.strip()
@@ -1564,7 +1564,7 @@ async def add_price_service_name(message: Message, state: FSMContext):
     )
 @router.message(PriceStates.waiting_price)
 async def add_price_value(message: Message, state: FSMContext):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     price = message.text.strip()
@@ -1588,7 +1588,7 @@ async def add_price_value(message: Message, state: FSMContext):
     )
 @router.message(PriceStates.waiting_description)
 async def add_price_description(message: Message, state: FSMContext):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     description = message.text.strip()
@@ -1631,7 +1631,7 @@ async def set_order_price_start(
     callback: CallbackQuery,
     state: FSMContext
 ):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         return
 
     order_id = int(callback.data.split("_")[-1])
@@ -1657,7 +1657,7 @@ async def set_order_price_finish(
     message: Message,
     state: FSMContext
 ):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     price = (message.text or "").strip()
@@ -1849,26 +1849,27 @@ async def client_accept_price(
         parse_mode="HTML"
     )
 
-    # Admin'ga xabar
-    try:
-        await callback.bot.send_message(
-            chat_id=ADMIN_ID,
-            text=(
-                "✅ <b>МИЖОЗ НАРХГА РОЗИ БЎЛДИ!</b>\n\n"
-                f"🆔 <b>Буюртма:</b> #{order_number}\n"
-                f"👤 <b>Мижоз:</b> {client_name}\n"
-                f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
-                f"💰 <b>Нарх:</b> {price}\n\n"
-                "🔄 <b>Статус:</b> Буюртма иш жараёнида."
-            ),
-            parse_mode="HTML"
-        )
+        # Barcha adminlarga xabar
+    for admin_id in ADMIN_IDS:
+        try:
+            await callback.bot.send_message(
+                chat_id=admin_id,
+                text=(
+                    "✅ <b>МИЖОЗ НАРХГА РОЗИ БЎЛДИ!</b>\n\n"
+                    f"🆔 <b>Буюртма:</b> #{order_number}\n"
+                    f"👤 <b>Мижоз:</b> {client_name}\n"
+                    f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
+                    f"💰 <b>Нарх:</b> {price}\n\n"
+                    "🔄 <b>Статус:</b> Буюртма иш жараёнида."
+                ),
+                parse_mode="HTML"
+            )
 
-    except Exception as error:
-        print(
-            "⚠️ Admin'га rozilik xabari yuborilmadi:",
-            error
-        )
+        except Exception as error:
+            print(
+                f"⚠️ Admin {admin_id} ga rozilik xabari yuborilmadi:",
+                error
+            )
 
     await callback.answer(
         "✅ Нарх қабул қилинди!"
@@ -1958,26 +1959,27 @@ async def client_reject_price(
         parse_mode="HTML"
     )
 
-    # Admin'ga xabar
-    try:
-        await callback.bot.send_message(
-            chat_id=ADMIN_ID,
-            text=(
-                "❌ <b>МИЖОЗ НАРХНИ РАД ЭТДИ!</b>\n\n"
-                f"🆔 <b>Буюртма:</b> #{order_number}\n"
-                f"👤 <b>Мижоз:</b> {client_name}\n"
-                f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
-                f"💰 <b>Таклиф қилинган нарх:</b> {price}\n\n"
-                "❌ <b>Натижа:</b> Мижоз нархга рози бўлмади."
-            ),
-            parse_mode="HTML"
-        )
+        # Barcha adminlarga xabar
+    for admin_id in ADMIN_IDS:
+        try:
+            await callback.bot.send_message(
+                chat_id=admin_id,
+                text=(
+                    "❌ <b>МИЖОЗ НАРХНИ РАД ЭТДИ!</b>\n\n"
+                    f"🆔 <b>Буюртма:</b> #{order_number}\n"
+                    f"👤 <b>Мижоз:</b> {client_name}\n"
+                    f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
+                    f"💰 <b>Таклиф қилинган нарх:</b> {price}\n\n"
+                    "❌ <b>Натижа:</b> Мижоз нархга рози бўлмади."
+                ),
+                parse_mode="HTML"
+            )
 
-    except Exception as error:
-        print(
-            "⚠️ Admin'га rad etish xabari yuborilmadi:",
-            error
-        )
+        except Exception as error:
+            print(
+                f"⚠️ Admin {admin_id} ga rad etish xabari yuborilmadi:",
+                error
+            )
 
     await callback.answer(
         "❌ Нарх рад этилди."
@@ -1988,7 +1990,7 @@ async def client_reject_price(
 
 @router.message(F.text == "⚙️ Созламалар")
 async def admin_settings(message: Message):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     keyboard = InlineKeyboardMarkup(
@@ -2022,7 +2024,7 @@ async def admin_settings(message: Message):
     F.data == "admin_payment_settings"
 )
 async def admin_payment_settings(callback: CallbackQuery):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -2050,7 +2052,7 @@ async def admin_payment_method_settings(
     callback: CallbackQuery,
     state: FSMContext
 ):
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer(
             "⛔️ Сизда бу амални бажариш ҳуқуқи йўқ.",
             show_alert=True
@@ -2115,7 +2117,7 @@ async def save_payment_method_details(
     message: Message,
     state: FSMContext
 ):
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     details = (message.text or "").strip()

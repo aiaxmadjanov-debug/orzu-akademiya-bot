@@ -7,6 +7,12 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
 
+ADMIN_IDS = [
+    int(x.strip())
+    for x in os.getenv("ADMIN_IDS", str(ADMIN_ID)).split(",")
+    if x.strip()
+]
+
 # Majburiy obuna kanallari
 REQUIRED_CHANNELS = [
     {
