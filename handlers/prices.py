@@ -15,7 +15,7 @@ def price_service_keyboard():
                 KeyboardButton(text="📝 Буюртма бериш")
             ],
             [
-                KeyboardButton(text="☎️ Админ")
+                KeyboardButton(text="☎️ Админ билан боғланиш")
             ],
             [
                 KeyboardButton(text="⬅️ Нархлар")
@@ -27,6 +27,10 @@ def price_service_keyboard():
         resize_keyboard=True
     )
 
+
+# =========================================================
+# 💰 НАРХЛАР
+# =========================================================
 
 @router.message(F.text == "💰 Нархлар")
 async def prices_menu_handler(message: Message):
@@ -46,6 +50,10 @@ async def prices_menu_handler(message: Message):
     )
 
 
+# =========================================================
+# 💬 НАРХНИ АНИҚЛАШ
+# =========================================================
+
 @router.message(F.text == "💬 Нархни аниқлаш")
 async def determine_price(message: Message):
     await message.answer(
@@ -64,18 +72,28 @@ async def determine_price(message: Message):
     )
 
 
-@router.message(F.text == "☎️ Админ")
+# =========================================================
+# ☎️ АДМИН БИЛАН БОҒЛАНИШ
+# =========================================================
+
+@router.message(F.text == "☎️ Админ билан боғланиш")
 async def admin_contact(message: Message):
     await message.answer(
         "☎️ <b>АДМИН БИЛАН БОҒЛАНИШ</b>\n\n"
-        "👩‍💻 Telegram: @UZB_ARZU\n\n"
-        "📩 Хабар қолдиринг — имкони борича тез жавоб берамиз.\n\n"
+        "👤 Администратор билан боғланиш учун:\n\n"
+        "📩 <b>Telegram:</b> @UZB_ARZU\n\n"
+        "Саволингиз ёки мурожаатингизни ёзиб қолдиринг.\n"
+        "Имкони борича тез жавоб берамиз.\n\n"
         "<b>ORZU AKADEMIYA</b>\n"
         "Ғоядан — профессионал натижагача. ✨",
         reply_markup=price_service_keyboard(),
         parse_mode="HTML"
     )
 
+
+# =========================================================
+# ⬅️ НАРХЛАРГА ҚАЙТИШ
+# =========================================================
 
 @router.message(F.text == "⬅️ Нархлар")
 async def back_to_prices(message: Message):
@@ -87,7 +105,11 @@ async def back_to_prices(message: Message):
     )
 
 
-@router.message(F.text == "🏠 Бош меню")
+# =========================================================
+# 🏠 БОШ МЕНЮ
+# =========================================================
+
+@router.message(F.text.in_({"🏠 Бош меню", "⬅️ Бош меню"}))
 async def back_to_main(message: Message):
     await message.answer(
         "🏠 <b>Бош меню</b>\n\n"

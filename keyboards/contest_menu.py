@@ -19,6 +19,9 @@ def contest_menu():
                 KeyboardButton(text="📚 Илмий мақола танловлари")
             ],
             [
+                KeyboardButton(text="🏆 Эътироф — 2026")
+            ],
+            [
                 KeyboardButton(text="📝 Иштирок этиш")
             ],
             [
