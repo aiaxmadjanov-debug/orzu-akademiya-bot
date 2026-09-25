@@ -1,6 +1,6 @@
 import asyncio
+import os
 from datetime import datetime
-
 from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
 from aiogram.types import (
@@ -32,7 +32,45 @@ from handlers import (
 
 dp = Dispatcher()
 
+# =========================================================
+# 🌐 RENDER PORT SERVER
+# =========================================================
 
+async def render_health_server():
+    port = int(os.environ.get("PORT", 10000))
+
+    async def handle_client(reader, writer):
+        try:
+            await reader.read(1024)
+
+            response = (
+                "HTTP/1.1 200 OK\r\n"
+                "Content-Type: text/plain; charset=utf-8\r\n"
+                "Content-Length: 2\r\n"
+                "Connection: close\r\n"
+                "\r\n"
+                "OK"
+            )
+
+            writer.write(response.encode())
+            await writer.drain()
+
+        except Exception:
+            pass
+
+        finally:
+            writer.close()
+            await writer.wait_closed()
+
+    server = await asyncio.start_server(
+        handle_client,
+        "0.0.0.0",
+        port
+    )
+
+    print(f"🌐 Render port server ishga tushdi: {port}")
+
+    return server
 # =========================================================
 # 📢 MAJBURIY OBUNA TUGMALARI
 # =========================================================
@@ -299,8 +337,14 @@ async def main():
         "🔥 Aksiyalar: YOQILDI"
     )
 
+        # Render PORT server
+    server = await render_health_server()
+
     # Polling
     await dp.start_polling(bot)
+
+    server.close()
+    await server.wait_closed()
 
 
 # =========================================================
